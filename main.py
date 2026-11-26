@@ -1,42 +1,19 @@
-from time import sleep
-import focar
+import time
+from focar import move_forward, turn_right, stop
 
-# Rectangle dimensions (movement time in seconds)
 LONG_SIDE = 2.0
 SHORT_SIDE = 1.2
+TURN_TIME = 0.45
 
-# Turning time (calibrate for your FoCar)
-TURN_TIME = 0.8
+def main():
+    time.sleep(1)
+    sides = [LONG_SIDE, SHORT_SIDE, LONG_SIDE, SHORT_SIDE]
 
-# Wait before starting
-sleep(5)
+    for duration in sides:
+        move_forward(duration)
+        stop()
+        turn_right(TURN_TIME)
+        stop()
 
-# Start rectangular route
-for side in range(4):
-
-    print("Moving along side", side + 1)
-
-    # Alternate long and short sides
-    if side % 2 == 0:
-        focar.move_forward(LONG_SIDE)
-    else:
-        focar.move_forward(SHORT_SIDE)
-
-    # Stop at the corner
-    focar.stop()
-
-    print("Reached corner", side + 1)
-
-    # Flash LED three times
-    focar.flash_led(3, 0.5)
-
-    # Turn 90 degrees left
-    focar.turn_left(TURN_TIME)
-
-# Final stop
-focar.stop()
-
-focar.led_off()
-
-print("Rectangular route completed!")
-print("FoCar has returned to its starting position.")
+if __name__ == "__main__":
+    main()
